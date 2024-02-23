@@ -1,6 +1,7 @@
+import { useState } from "react"
 import { herolist } from "../../assets/data/data"
-import { Title } from "../common/CustomComponents"
-
+import { BodyOne, Caption, Title } from "../common/CustomComponents"
+import PropTypes from "prop-types";
 
 export const Hero = () => {
   return (
@@ -11,8 +12,8 @@ export const Hero = () => {
           key={item.id}
           title={item.title}
           description={item.description}
-          price={item.price}
-          color={item.color}
+          prices={item.price}
+          colors={item.color}
           image={item.image}
           />
          ))}
@@ -21,21 +22,52 @@ export const Hero = () => {
   )
 }
 
+export const HeroItem = ({title, description, prices, colors, image}) => {
+  const [selectedColor, setSelectedColor] = useState(colors[0].value);
 
-export const HeroItem = ({title, description, price, color, image}) => {
+  const [selectedPrice, setSelectedPrice] = useState(
+    prices.find((price) => price.color === colors[0].value)
+  );
+
+  const handleColorClick = (color) => {
+    const newSelectedPrice = prices.find((price) => price.color === color);
+    setSelectedColor(color);
+    setSelectedPrice(newSelectedPrice);
+  }
+
   return (
     <>
       <section className="content flex justify-between lg:px-16 h-[50vh] lg:h-[90vh] relative z-20" >
         <div className="left w-1/2 p-8 lg:p-32 lg:py-59">
           <Title
           level={1}
-          className="leading-none font-medium md-text-3xl lg:text-[50px] lg:leading-snug"
+          className="leading-none font-medium md-text-3xl lg:text-[70px] lg:leading-snug"
           >
             {title}
             </Title>
+            <BodyOne>
+               {description}
+            </BodyOne>
+            <div className="flex items-start gap-8 my-5">
+              <div>
+                <Caption>Prices</Caption>
+                <div className="mt-3">
+                  <Title level={5}>${selectedPrice.value.toFixed(2)}</Title>
+                </div>
+              </div>
+            </div>
         </div>
       </section>
     </>
   )
 }
-export default Hero
+
+
+HeroItem.propTypes = {
+  title: PropTypes.isRequired,
+  description: PropTypes.isRequired,
+  prices: PropTypes.isRequired,
+  colors: PropTypes.isRequired,
+  image: PropTypes.isRequired,
+
+};
