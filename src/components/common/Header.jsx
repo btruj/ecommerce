@@ -54,7 +54,7 @@ const isHomePage = location.pathname === "/";
         <div 
         className={`${
           isScrolled ? "lg:bg-none" : "lg:bg-black"
-        } lg:h-[88px] lg:absolute lg:top-0 lg:right-0 lg:w-1/3 lg:-z-10`}
+        } lg:h-[14vh] lg:absolute lg:top-0 lg:right-0 lg:w-1/3 lg:-z-10`}
         ></div>
         )} 
       <nav className="p-4 flex justify-between items-center relative">
@@ -117,6 +117,7 @@ const isHomePage = location.pathname === "/";
         </div>
 
         {/* Responsive Menu if below 768px */}
+        
            <div ref={menuRef} className={`lg:flex lg:items-center lg:w-auto w-full p-5 absolute right-0 top-full menu-container ${
             isOpen ? "open" : "closed"
             }`}>
