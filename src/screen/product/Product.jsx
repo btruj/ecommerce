@@ -5,7 +5,7 @@ import { ProductCard } from "../../router"
 
 export const Product = () => {
     return (
-    <div>
+    <>
         <section className="py-20 bg-white-100">
             <div className="container">
                 <Title level={4}>Most Popular Products</Title>
@@ -15,7 +15,7 @@ export const Product = () => {
                         Wooden products (15)
                     </BodyOne>
                     </div>
-                    <div>
+                    <div className="content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
                         {productlists.map((product) => (
                             <ProductCard
                             id={product.id}
@@ -35,6 +35,6 @@ export const Product = () => {
                     </div>
                 </div>
         </section>
-    </div>
+    </>
     )
   }
