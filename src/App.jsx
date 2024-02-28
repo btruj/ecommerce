@@ -1,6 +1,7 @@
 
 import { BrowserRouter, Route, Routes} from "react-router-dom";
-import { Home, Layout } from "./router";
+import { Home, Layout, Shop } from "./router";
+import { ProductDetails } from "./screen/product/ProductDetails";
 
 const App = () => {
   return (
@@ -12,6 +13,22 @@ const App = () => {
       element={
         <Layout>
           <Home/>
+        </Layout>
+      }
+      />
+      <Route
+      path="/shop"
+      element={
+        <Layout>
+          <Shop/>
+        </Layout>
+      }
+      />
+            <Route
+      path="/product-details/:productId"
+      element={
+        <Layout>
+          <ProductDetails/>
         </Layout>
       }
       />
