@@ -6,6 +6,9 @@ import { useState } from "react";
 import { BiHeart, BiMinus, BiPlus } from "react-icons/bi";
 import { ProductSlideCard } from "../../components/product/ProductSlide";
 import { FilterDiscover } from "../../components/hero/InstagramPost";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const colorsValue = {
   red: "#fe7fef",
@@ -50,6 +53,22 @@ if(!product) {
   return <div>Product Not Found</div>
 }
 
+const CustomePage = ({ index, onClick }) => (
+  <div>
+  <img src={images[index].image} alt="" onClick={onClick} />
+  </div>
+)
+
+const settings = {
+  customPaging:(i) => <CustomePage index={i} />,
+  dots: true,
+  dotsClass: "slick-dots slick-thumb",
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1
+};
+
   return (
     <>
       <section className="container mt-32 slideproduct">
@@ -58,13 +77,15 @@ if(!product) {
         key={productId}>
           <div className="images lg:w-1/2">
             <div>
-              {images.slice(0,1).map((image, index) => (
+              <Slider {...settings}>
+              {images.map((image, index) => (
               <img 
               src={image.image} 
               key={index}
               className="w-full h-full"
               />
               ))}
+              </Slider>
             </div>
           </div>
           <div className="details lg:w-1/2 px-16 pt-16">

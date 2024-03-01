@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import LogoImg from "../../assets/common/logo.jpeg"
 import { menulists } from "../../assets/data/data"
-import { Badges, CustomeLink,CustomeNavLink } from "./CustomComponents"
-import { IoSearchOutline, IoCartOutline, IoHeartOutline } from "react-icons/io5"
+import {  CustomeLink,CustomeNavLink } from "./CustomComponents"
+import { IoSearchOutline } from "react-icons/io5"
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai"
 import { useLocation } from "react-router-dom"; 
+import { ModelCart } from "../cart/ModelCart"
 
 export const Header = () => {
 const [isOpen,setIsOpen] = useState(false);
@@ -54,12 +55,12 @@ const isHomePage = location.pathname === "/";
         <div 
         className={`${
           isScrolled ? "lg:bg-none" : "lg:bg-black"
-        } lg:h-[14vh] lg:absolute lg:top-0 lg:right-0 lg:w-1/3 lg:-z-10`}
+        } lg:h-[88px] lg:absolute lg:top-0 lg:right-0 lg:w-1/3 lg:-z-10`}
         ></div>
         )} 
       <nav className="p-4 flex justify-between items-center relative">
-        <div className="flex items-center gap-4 lg:gap-14">
-         <div className="h-10 lg:h-16 w-auto">
+        <div className="flex items-center lg:gap-14">
+         <div className="h-10 lg:h-8 w-auto">
            <img src={LogoImg} alt="LogoImg" className="h-full w-auto"/>
          </div>
          <div className="hidden lg:flex items-center justify-between gap-8">
@@ -95,20 +96,8 @@ const isHomePage = location.pathname === "/";
           >
             <IoSearchOutline size={23} />
             
-            <div className=" relative z-20">
-            <IoHeartOutline size={23} />
+            <ModelCart />
 
-            <div className="absolute -top-3.5 -right-1.5 ">
-              <Badges color="bg-primary-green">0</Badges>
-            </div>
-            </div>
-            <div className=" relative z-20">
-            <IoCartOutline size={23} />
-
-            <div className="absolute -top-3.5 -right-1.5 ">
-              <Badges color="bg-primary-green">0</Badges>
-            </div>
-            </div>
            <button onClick={toggleMenu} 
            className="lg:hidden w-10 h-10 flex justify-center items-center bg-black text-white focus:outline-none" >
              {isOpen ? <AiOutlineClose size={24}/> : <AiOutlineMenu size={24}/>}

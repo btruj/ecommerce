@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom"
 import { BodyOne, Title } from "../common/CustomComponents"
 import { useState } from "react"
 import { AiFillInstagram } from "react-icons/ai"
+import { useDispatch } from "react-redux"
+import { CartActions } from "../../redux/slice/cartSlice"
 
 export const RenderRatingStars = (rating) => {
     const totalStars = 5;
@@ -40,6 +42,7 @@ export const ProductCard = ({
 }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const dispatch = useDispatch()
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -48,6 +51,13 @@ export const ProductCard = ({
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    const discountPrice = price[0].value - (price[0].value * discount) / 100;
+
+    const addToCart = () => {
+        dispatch(CartActions.addToCart({id, title, price:discountPrice, images}))
+    }
+     
 
   return (
     <>
@@ -62,7 +72,7 @@ export const ProductCard = ({
             />
            ))}
            <div className="flex justify-between w-full p-5 absolute top-0 left-0">
-            {discount && <button className="discount-btn">{discount}</button>}
+            {discount && <button className="discount-btn">{discount}%</button>}
             {featured && (
             <button className="feature-btn">
                 {featured === true && "Featured"}
@@ -73,7 +83,9 @@ export const ProductCard = ({
             <button onClick={openModal} className="quick-view-btn product-btn primary-btn">
                 Quick View
             </button>
-            <button className="add-to-cart-btn product-btn primary-btn">
+            <button 
+            onClick={addToCart}
+            className="add-to-cart-btn product-btn primary-btn">
                 <IoCart size={23}/>
             </button>
             <button className="love-btn product-btn primary-btn">
