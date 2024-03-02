@@ -115,7 +115,9 @@ export const HeroItem = ({title, description, prices, colors, image}) => {
             </div>
             <div className="flex items-center gap-8">
               <button className="primary-btn uppercase">view details</button>
+              <a href="/shop">
               <button className="secondary-btn uppercase">view shop</button>
+              </a>
             </div>
         </div>
         <div className="right bg-white p-5 w-1/2 h-full flex justify-center items-center relative z-50">
