@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Route, Routes} from "react-router-dom";
-import { Home, Layout, Shop } from "./router";
+import { CartPage, Home, Layout, Shop } from "./router";
 import { ProductDetails } from "./screen/product/ProductDetails";
 
 const App = () => {
@@ -24,11 +24,19 @@ const App = () => {
         </Layout>
       }
       />
-            <Route
+      <Route
       path="/product-details/:productId"
       element={
         <Layout>
           <ProductDetails/>
+        </Layout>
+      }
+      />
+      <Route
+      path="/cart"
+      element={
+        <Layout>
+          <CartPage/>
         </Layout>
       }
       />
