@@ -7,6 +7,7 @@ import { useState } from "react"
 import { AiFillInstagram } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { CartActions } from "../../redux/slice/cartSlice"
+import { favoriteActions } from "../../redux/slice/favouriteSlice"
 
 export const RenderRatingStars = (rating) => {
     const totalStars = 5;
@@ -58,6 +59,16 @@ export const ProductCard = ({
         dispatch(CartActions.addToCart({id, title, price:discountPrice, images}))
     }
      
+    const handleAddToFavorites = () => {
+        dispatch(
+            favoriteActions.addToFavorites({
+                id, 
+                title, 
+                price:discountPrice, 
+                images
+            })
+        )
+    }
 
   return (
     <>
@@ -88,7 +99,9 @@ export const ProductCard = ({
             className="add-to-cart-btn product-btn primary-btn">
                 <IoCart size={23}/>
             </button>
-            <button className="love-btn product-btn primary-btn">
+            <button 
+            onClick={handleAddToFavorites}
+            className="love-btn product-btn primary-btn">
                 <IoMdHeart size={23}/>
             </button>
            </div>

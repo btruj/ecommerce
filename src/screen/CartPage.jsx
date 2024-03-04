@@ -1,12 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
-import { CartActions, selectTotalPrice } from "../redux/slice/cartSlice"
+import {  CartActions, selectTotalPrice, clearCart } from "../redux/slice/cartSlice"
 import BgImage from "../assets/common/Frame.png"
-import { Title } from "../components/common/CustomComponents";
+import { BodyOne, Title } from "../components/common/CustomComponents";
+import { IoCloseOutline } from "react-icons/io5";
+import { BiPlus, BiMinus } from "react-icons/bi";
+import StripeCheckOut from "react-stripe-checkout"
+import PropTypes from "prop-types"
+
 
 export const CartPage = () => {
     const cartItems = useSelector((state) => state.cart.itemList)
     const totalPrice = useSelector(selectTotalPrice)
     const dispatch = useDispatch()
+
+    const handleToken = (token) => {
+       
+       dispatch(clearCart())
+    }
   return (
 <>
 <section className="mt-16">
@@ -44,14 +54,14 @@ export const CartPage = () => {
                         </thead>
                         <tbody>
                             {cartItems?.map((item) => (
-                                <CartPageCard 
+                                <CartPageCard
                                 key={item?.id} 
                                 id={item?.id} 
                                 cover={item?.cover} 
                                 name={item?.name} 
                                 price={item?.price} 
                                 quantity={item?.quantity} 
-                                totalprice={item?.totalprice} />
+                                totalPrice={item?.totalPrice} />
                             ))}
                         </tbody>
                     </table>
@@ -62,26 +72,29 @@ export const CartPage = () => {
                 <p className="text-lg font-medium text-primary">Cart totals</p>
                     <hr className="my-2 h-[2px] bg-gray-200"/>
                     <div className="text-lg font-medium text-primary flex items-center gap-5">
-                        <p className="w-32">Subtotal</p> <p className="text-sm font-normal">${totalPrice.toFixed(2)}</p>
+                        <p className="w-32">Subtotal</p>{" "}
+                        <p className="text-sm font-normal">${totalPrice.toFixed(2)}</p>
                     </div>
                     <hr  className="my-3 h-[2px] bg-gray-200"/>
                     <div className="text-lg font-medium text-primary flex items-center gap-5">
-                        <p className="w-32">Shipping</p> <p className="text-sm font-normal">Enter your address to view shipping options</p>
+                        <p className="w-32">Shipping</p>{" "}
+                        <p className="text-sm font-normal">Enter your address to view shipping options</p>
                     </div>
                     <hr  className="my-3 h-[2px] bg-gray-200"/>
                     <div className="text-lg font-medium text-primary flex items-center gap-5">
-                        <p className="w-32">Total</p> <p className="text-sm font-normal">${totalPrice.toFixed(2)}</p>
+                        <p className="w-32">Total</p>{" "}
+                         <p className="text-sm font-normal">${totalPrice.toFixed(2)}</p>
                     </div>
-                    {/* <StripeCheckOut
+                    <StripeCheckOut
                     token={handleToken}
                     stripeKey=""
                     amount={totalPrice * 100} //stripe amount will be in cents so multiply by 100
                     name="Gorkcoder Food Store"
                     email="gorkcoder@gmail.com"
                     description="Payment test using Stripe checkout"
-                    > */}
+                    >
                         <button className="primary-btn mt-5">Proceed To Checkout</button>
-                        {/* </StripeCheckOut> */}
+                        </StripeCheckOut>
             </div>
         </div>
     </div>
@@ -90,8 +103,7 @@ export const CartPage = () => {
   )
 }
 
-
-export const CartPaged = ({id, cover, name, price, quantity, totalPrice }) => {
+export const CartPageCard = ({id, cover, name, price, quantity, totalPrice }) => {
 
     const dispatch = useDispatch();
 
@@ -107,6 +119,47 @@ export const CartPaged = ({id, cover, name, price, quantity, totalPrice }) => {
 
   return (
     <>
+      <tr className="bg-white border-b hover:bg-gray-50">
+        <td className="p-4">
+          {cover?.slice(0, 1).map((image, i) => (
+             <img key={i} src={image.image} alt={i} className="w-24 h-24 object-cover" />
+          ))}
+        </td>
+        <td className="px-6 py-4">
+            <BodyOne>{name}</BodyOne>
+        </td>
+        <td className="px-6 py-4">
+            <BodyOne>${price.toFixed(2)}</BodyOne>
+        </td>
+        <td className="px-6 py-4">
+            <div className="flex items-center gap-3">
+                <button 
+                  onClick={inCartitems} 
+                  className="w-12 h-12 grid place-content-center bg-gray-100 text-primary border border-gray-300">
+                  <BiPlus size={20}/>
+                </button>
+                <input 
+                type="text" 
+                value={quantity} 
+                readOnly 
+                className="w-16 h-12 text-primary outline-none border border-gray-300 px-6" />
+                <button 
+                className="w-23 h-12 grid place-content-center bg-gray-100 text-primary border border-gray-300" 
+                onClick={removeCartitem}
+                >
+                  <BiMinus size={20}/>
+                </button>
+            </div>
+        </td>
+        <td className="px-6 py-4">
+            <BodyOne>${totalPrice.toFixed(2)}</BodyOne>
+        </td>
+        <td className="px-6 py-4">
+            <button onClick={removeCartitems} className="w-12 h-12 bg-primary-green rounded-full flex items-center justify-center text-white">
+                <IoCloseOutline size={25} />
+            </button>
+        </td>
+      </tr>
     </>
   )
 }
